@@ -1,0 +1,13 @@
+\chapter{2/8/2023: Bonds}
+\section{Bonds}
+Suppose we have $P_T$ amount of capital and invest it at the risk free rate $r^F$. After one year, our capital will grow to $P_T(1+r^F)$. If we have a different risk free rate in each year, then our principal will compound to $$ P_T = P_0\prod_{t=1}^T(1+r_t^F). $$ For example, suppose that we have have an asset that will pay $Q_T=100$ at time $T$. Then the price we would pay $P_0=M_TQ_T$, where $M_T=\frac{1}{1+r^F}$ or whatever the interest rate compounds to over time. In this case, $M_T$ is essentially the discount rate. The time $T$ is called the time to maturity. Then the \textbf{yield} is the single interest rate that will give the same total compound interest the combined effects of the $r_t^F$s: $$ (1+\hat i_T)^T = \prod_{t=1}^T(1+r_t^F) = \frac{1}{M_T}. $$ If we take the log of both sides, then we get \begin{align*}
+	T\log(1+\hat i_T)^T &= \sum_{t=1}^T\log(1+r_t^F) \\
+	\hat i_T &= \exp\left\{\frac{1}{T}\sum_{t=1}^T\log(1+r_t^F)\right\} - 1 \\
+		&= \exp\left\{\frac{1}{T}\log\left(\frac{Q_T}{P_0}\right)\right\}-1.
+\end{align*} Then if we plot $\hat i_T$ vs. $T$, we get the \textbf{yield curve}.
+
+\section{PCA}
+We can transform our observed data by projecting the dataset onto the space defined by the top $m$ PCA components, which are given by the eigenvectors of the covariance matrix of the data. The key idea is so that each PC explains as much of the variance in the data as possible. Often times the first few principal components the vast majority of the variance in the data, and thus PCA can be a dimensionality reduction technique.
+
+Notably with respect to bonds, we can look at the yields for the treasuries of various maturities to get a sense of what is happening in the treasuries market. The first principal component is mostly an average of the rates at all expiries, and is called the level. The second principal component is essentially the rates of the treasuries with long expiry minus the rates of those with short expiry; this check for an ``inversion'' of the yield curve has become an indicator of recession. This second principal component is called the slope. The third principal component roughly tells you the difference of the slope at high expiries and the slope at low expiries and is called the curvature. This third principal component explains much less of the variance than the first two PCs do. Note that this principal component analysis is totally unsupervised -- we did not provide any labels for the data; the PCs simply give the vectors that explain the most variance in the data itself.
+

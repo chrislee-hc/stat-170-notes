@@ -1,0 +1,10 @@
+\chapter{2/1/2023}
+\section{Linear Regression Review}
+Many packages by default do not include an intercept. Unless there's a compelling reason why you shouldn't include one, you should add it manually if necessary. Furthermore, no causalities can be drawn from a regression; it's a purely correlational thing. The generally important quantities to look at in the output of the regression: \begin{itemize}
+	\item Betas: association between the predictor and response, holding all the other predictors constant
+	\item $p$-values: the significance of the difference of the betas from 0
+	\item $R^2$; the percent variance (unexplained by an intercept/mean-only model) explained by the model
+\end{itemize} A simple regression example is in CAPM, which regresses $r_i=\alpha+\beta Z_i+\varepsilon_i$, where $r_i$ is the return of some stock on day $i$, and $Z_i$ is the return of ``the market`` (generally some index or ETF such as SPY) on day $i$.
+
+One common measure for risk-adjusted returns is the Sharpe ratio, calculated as $S_a=\mathbb E[R-R_F]/\sigma_R$, where $R$ is the return of the asset, $R_F$ is the returns of a risk-free asset, and $\sigma_R$ is the standard deviation of the asset excess return.
+

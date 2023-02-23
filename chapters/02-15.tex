@@ -1,0 +1,57 @@
+\chapter{2/15/2023: Martingales Continued}
+\section{Computations}
+We will first prove the third property of Martingales from last class:
+\clm{}{}{For $i\neq j$, we have $\Cov(\varepsilon_{t+j},\varepsilon_{t+i}|\mathcal F_t)=0$.}
+\pf{Utilizing the definition of covariance, we can write $$ \Cov(\varepsilon_{t+i},\varepsilon_{t+j}|\mathcal F_t) = \mathbb E[\varepsilon_{t+i}\varepsilon_{t+j}|\mathcal F_t] - \mathbb E[\varepsilon_{t+i}|\mathcal F_t]\mathbb E[\varepsilon_{t+j}|\mathcal F_t]. $$ By property 2 from last class, we have $\mathbb E[\varepsilon_{t+i}|\mathcal F_t]\mathbb E[\varepsilon_{t+j}|\mathcal F_t]=0$. Then without loss of generality assume that $i<j$. By Generalized Adam's Law, we then get $$ \mathbb E[\varepsilon_{t+i}\varepsilon_{t+j}|\mathcal F_t] = \mathbb E[\mathbb E[\varepsilon_{t+i}\varepsilon_{t+j}|\mathcal F_{t+i}]\mathcal F_t] = \mathbb E[\varepsilon_{t+i}\mathbb E[\varepsilon_{t+j}|\mathcal F_{t+i}]|\mathcal F_t]. $$ Again by property 2, we get $\mathbb E[\varepsilon_{t+j}|\mathcal F_{t+i}]=0$, which means that our original covariance is 0.}
+
+Next, suppose we have a self-financing portfolio of stocks over time with prices $\{\mathbf P_t\}_{t=1}^T$ and histories $\{\mathcal F_t\}_{t=1}^T$, and suppose at time $t$ we have weights $\bs\alpha_t$ in each of the stocks. Because this portfolio is self-financing, we do not want any cash to flow into or out of the portfolio and, assuming that we can instantaneously reweight our portfolio at each time step, this means that $\bs\alpha_{t-1}^\top\mathbf P_t = \bs\alpha_t^\top\mathbf P$.
+
+Let $\Pi_t=\bs\alpha_t^\top\mathbf P_t$ be the total value of the portfolio at time $t$. Then the profit gained between days $t$ and $t+1$ is \begin{align*}
+	\Pi_{t+1}-\Pi_t &= \bs\alpha_t^\top\mathbf P_{t+1} - \bs\alpha_{t-1}^\top\mathbf P_t \\
+					&= \bs\alpha_t^\top\mathbf P_{t+1} - \bs\alpha_t^\top\mathbf P_t \\
+					&= \bs\alpha_t^\top(\mathbf P_{t+1}-\mathbf P_t).
+\end{align*} This is relatively obvious, it just says your total profit is the weighted average of the profits from your portfolio.
+
+\clm{}{}{If $(\mathbf P_t,\mathcal F_t)$ is a Martingale, then $(\Pi_t,\mathcal F_t)$ is also a Martingale.}
+\pf{This follows fairly directly from above and from the properties of Martingale differences: we first see that the expected difference between consecutive $\Pi_t$ given the relevant information is 0: $$ \mathbb E[\Pi_{t+1}-\Pi_t|\mathcal F_t] = \mathbb E[\bs\alpha_t^\top(\mathbf P_{t+1}-\mathbf P_t)|\mathcal F_t] = \bs\alpha_t^\top\mathbb E[\mathbf P_{t+1}-\mathbf P_t|\mathcal F_t] = 0. $$ This then implies that $(\Pi_t,\mathcal F_t)$ satisfies the key condition of being a Martingale: $$ \mathbb E[\Pi_{t+1}|\mathcal F_t] = \mathbb E[\Pi_t|\mathcal F_t] = \Pi_t. $$ }
+This shows us that we can construct new Martingales from old ones; in particular, in this example we are creating the new Martingale $(\Pi_t,\mathcal F_t)$ from the Martingale differences of the original Martingale $(\mathbf P_t,\mathcal F_t)$. More generally, if we have Martingale $(M_t,\mathcal F_t)$ and random variables $\{A_t\}_{t=1}^n$ with $\mathbb E[A_t|\mathcal F_t]=A_t$ (i.e. $\mathcal F_t$ encodes all possible information about $A_t$? I think), then if we define $$ Z_n=\sum_{t=1}^{n} A_t(M_t-M_{k-1}), $$ then $(Z_t,\mathcal F_t)$ is a Martingale. If we have continuous time periods, then this becomes the integral $\int A_t\mathrm dM_t$, which is the basis of stochastic calculus.
+
+\section{Doob's Optional Stopping Theorem}
+\subsection{Definitions and Theorem}
+\dfn{Martingale Stopping Times}{The \textbf{stopping time} $\tau$ of martingale $(M_n,\mathcal F_n)$ is a random variable whose value is interpreted as the time at which a given stochastic process exhibits a specific behavior of interest. In particular, we always need to be able to answer whether or not time $\tau$ has already occurred by time $t$ given information $\mathcal F_t$.}
+\ex{Stopping Times and Not Stopping Time}{
+Here are a few examples to emphasize what defines a stopping time and examples of random variables that do not satisfy this condition.
+\begin{itemize}
+	\item If $\tau$ is the first time that our portfolio is down \$5, then it is a stopping time.
+	\item If $\tau$ is the time at which a stock reaches its daily minimum, then it is not a stopping time, because we can never know if it happened or not without looking into the future (or until the day ends).
+\end{itemize}
+}
+\theorem{Doob's Optional Stopping Theorem}{If we have stopping time $\tau$ with $\mathbb E[\tau]<\infty$ and some bound $B$ such that $|M_n-M_{n-1}|\leq B$, then $\mathbb E[M_\tau] = \mathbb E[M_0]$.}
+
+\subsection{Examples}
+\noindent To show how powerful this theorem is, we'll look at a few nice problems.
+\qs{Gambler's Ruin}{Let $X_i\sim\operatorname{Bern}(1/2)$ be a sequence of random variables and let $M_n=\sum_{i=1}^n X_i$ so that $M_n$ when paired with the relevant information is a Martingale. Given some $A,B\in\mathbb Z^+$, what is the probability that the sequence $\{M_t\}_{t=1}^\infty$ reaches the value $A$ before it reaches $-B$?}
+\begin{solution}
+	Let $\tau$ be the first time the sequence hits either $A$ or $-B$. Note that this is a stopping time since we can always verify whether this has happened yet and since the bounding conditions holds. Then by Doob (it's straightforward to verify that the necessary conditions are satisfied), $\mathbb E[M_\tau] = 0$, which tells us that the probability of $M_\tau$ being $A$ (i.e. that the sequence hits $A$ first) is $\frac{B}{A+B}$.
+\end{solution}
+	Note that if our stopping condition was only the first time we hit $A$ (and not bounding the other side), then Doob's Theorem would not hold because $\mathbb E[\tau]$ would not be finite.
+
+\qs{oh no chris is drunk again}{
+	Suppose we have a drunk monkey (named Chris) with a typewriter jamming away at the keys. What's the expected time (number of key presses) it will take him to type \textit{ABRACADABRA}? (Assume the monkey only types capital letters.)
+}
+
+\begin{solution}
+	Suppose a casino takes fair bets on the letters the monkey types such that if someone bet \$1 that the next letter the monkey will type is an A, then they will get \$26 if the monkey does indeed type an A with its next letter and nothing if not. The casino will stop taking bets once the monkey has successfully typed \textit{ABRACADABRA}. \\[0.1in]
+	Suppose further that at first there is one bettor and that with each key the monkey presses, another bettor shows up. Each of these bettors have the exact same behavior: \begin{itemize}
+		\item The bettor shows up to the casino with \$1.
+		\item The bettor leaves the casino once either they lose all their money or the 
+		\item The bettor bets all their money on the first letter that they have not yet bet on.
+	\end{itemize}
+	Since each bettor bets exactly \$1 and never has any other cash flows (since they will subsequently re-bet their entire amount on the next letter) unless the monkey has typed the magic word, the casino will have \$$\tau$ after the monkey has typed $\tau$ letters before having to pay off any bets. Furthermore, since each of the bets is fair (i.e. has expected value 0), the amount of money $M_t$ the casino has at each time step $t$ (before the bettors re-bet their earnings from the previous key press) is a Martingale with respect to the information in the previous time steps, and we can easily check that the conditions of Doob's OST hold. Thus, if we have stopping time $\tau$, then we have $\mathbb E[M_\tau]=\mathbb E[M_0]$. Since the casino starts with no money and only takes fair-valued bets, $\mathbb E[M_0]=0$. Furthermore, at time $\tau$ the casino will have garnered \$$\tau$ worth of payments, so if the casino has to pay off $P$ to the bettors at the end (once the monkey has typed \textit{ABRACADABRA}), then $$ \mathbb E[M_\tau] = \mathbb E[\tau-P] = \mathbb E[\tau]-P = 0 \implies \mathbb E[\tau] = P. $$ Thus, the expected stopping time is exactly the amount that the casino will have to pay the bettors in the end. When the monkey has typed the magic word, the casino will have to pay exactly four bettors: \begin{itemize}
+		\item One bettor will win \$$26^{11}$ since they started betting 11 time steps previously and won all 11 bets.
+		\item One bettor will win \$$26^4$ since they started betting 4 time steps previously and won all 4 bets due to the fact that the first and last four letters of \textit{ABRACADABRA} are the same.
+		\item One bettor will win \$$26$ since they won the bet that the monkey would type an A, the last letter of the magic phrase.
+	\end{itemize}
+	Thus, the expected stopping time is $$ \mathbb E[\tau] = P = 26^{11} + 26^4 + 26. $$ 
+\end{solution}
+
