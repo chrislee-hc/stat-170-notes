@@ -1,5 +1,4 @@
 .DS_STORE
-*.tex
 *.aux
 *.fdb_latexmk
 *.fls
