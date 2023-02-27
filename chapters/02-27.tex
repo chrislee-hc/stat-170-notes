@@ -1,0 +1,50 @@
+\chapter{2/27/2023: Portfolio Theory}
+\section{Portfolio Optimization Basics}
+Suppose we have a portfolio of two stocks with expected returns $\mu_1=\mathbb E[r_1]$ and $\mu_2=\mathbb E[r_2]$. For this example, first let $\mu_1 = 1$ and $\mu_2 = 0$. We want to allocate weights (either positive or negative) to each of the stocks that sum to 1. If we allocate $1+\alpha$ to asset 1 and $-\alpha$ to asset 2, then our expected return is $1+\alpha$, which goes to $\infty$ as $\alpha$ goes to $\infty$. There's a few problems with just concluding that we should assert that an infinite $\alpha$ is optimal: \begin{itemize}
+	\item Larger $\alpha$ values exposes us to larger variance, which makes this strategy arbitrarily \textbf{risky} as $\alpha$ becomes arbitrarily large.
+	\item (Less important for this theory but a real consideration in practice:) Since the weight on the second asset is $-\alpha$, we are essentially borrowing capital via shorting asset 2 in order to invest in asset 1. This has issues such as not taking into account the cost of borrowing.
+\end{itemize} Thus, expected value is not enough to evaluate a portfolio -- we also need to think about some metric of risk such as variance.
+
+\subsection{Diversification (``Vignettes'')}
+One common way to reduce risk is through diversification. Suppose we have two assets $A,B$ both with variances $\sigma^2$. Then, the variance of our portfolio given weights $w_1$ and $w_2$ on $A$ and $B$ respectively is \begin{align*}
+	\Var(w_1 r^A + w_2r^B) &= w_1^2\sigma^2+w_2^2\sigma^2 + 2w_1w_2\Cov(r^Ar^B) \\
+						   &\leq \sigma^2(w_1^2+w_2^2 + 2w_1w_2) \\
+						   &= \sigma^2(w_1+w_2)^2 \\
+						   &= \sigma^2.
+\end{align*} The inequality is simply the Cauchy-Schwarz Inequality, $\Cov(w_1,w_2)\leq\sqrt{\Var(w_1)\Var(w_2)}=\sigma^2$, and the last equality comes from the fact that the weights must sum to 1.
+
+Instead suppose there are $n$ assets with variances $\sigma_1^2,\cdots,\sigma_n^2$ with weights $w_i=\frac{1}{n}$. Then the variance of the returns of our portfolio is \begin{align*}
+	\Var \left( \sum_{i=1}^{n} w_ir^i  \right) &= \frac{1}{n^2} \sum_{i=1}^{n} \sigma_i^2 + \frac{1}{n^2} \sum_{i\neq j}^{n} \Cov(r^i,r^j) \\
+											   &= \frac{1}{n} {\left( \frac{\sum_{i=1}^{n} \sigma_i^2}{n} \right)} + \frac{n(n-1)}{n^2} {\left( \frac{\sum_{i\neq j}\Cov(r^i,r^j)}{n(n-1)} \right)} \\
+											   &= \frac{1}{n} \underbrace{\left( \frac{\sum_{i=1}^{n} \sigma_i^2}{n} \right)}_{\text{``average variance''}} + \left( 1-\frac{1}{n} \right) \underbrace{\left( \frac{\sum_{i\neq j}\Cov(r^i,r^j)}{n(n-1)} \right)}_{\text{``average covariance''}}.
+\end{align*} Then as $n$ becomes large, essentially all of the weight will be on the ``average covariance'' term, so the variance of our portfolio will be almost entirely determined by the covariances between the assets.
+
+\subsection{General Portfolio Setup}
+Now suppose we have a vector of asset returns at time $t$ $\mathbf r_t$ with expectations that are conditional on information $\bs\mu_t = \mathbb E[\mathbf r_{t+1}|\mathcal F_t]$ and similarly conditional variance $\bs\Sigma_t = \Var(\mathbf r_{t+1}|\mathcal F_t)$. We wish to find $\bs\alpha_t$, which is the optimal portfolio. The value of our portfolio is $V_t = \bs\alpha_t^\top\mathbf r_t$, and the conditional expectation and variance become (by properties proved in PSet 2) $$ \mathbb E[V_{t+1}|\mathcal F_t] = \bs\alpha_t^\top\bs\mu_t $$ and $$ \Var(V_{t+1}|\mathcal F_t) = \bs\alpha^\top\bs\Sigma_t\bs\alpha_t. $$ One simple formulation is to simply find $\argmax_{\bs\alpha_t}\bs\alpha^\top\bs\mu_t$, but we saw earlier that this is too simplistic as it does not consider risk (among other things). Some other possibilities for our optimization problem formulation: \begin{enumerate}
+	\item $\argmax_{\bs\alpha_t}\bs\alpha_t^\top\bs\mu_t-\frac{\Gamma_t}{2}\bs\alpha_t^\top\bs\Sigma_t\bs\alpha_t$
+	\item $\argmax_{\bs\alpha_t}\bs\alpha_t^\top\bs\mu_t$ such that $\bs\alpha_t^\top\bs\Sigma_t\bs\alpha$ is under some limit
+	\item Divide the returns by standard deviation, giving the Sharpe ratio
+\end{enumerate} The first optimization problem is very hard to solve, and the second and third are actually the same using Lagrange multipliers.
+
+\theorem{}{Let $\hat{\bs\alpha_t}$ to be the solution to the optimization problem in (1) from above. Then, $$ \hat{\bs\alpha_t} = \frac{1}{\Gamma_t}\bs\Sigma_t^{-1}\bs\mu_t, $$ and the expected returns and variance of the portfolio are $$ \mathbb E[V_{t+1}|\mathcal F_t] = \frac{1}{\Gamma_t}\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t $$ and $$ \Var(V_{t+1}|\mathcal F_t) = \frac{1}{\Gamma_t^2}\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t. $$ }
+\pf{
+	The proof is fairly straightforward optimization: \begin{align*}
+		\frac{\partial}{\partial\bs\alpha_t} \left( \bs\alpha_t^\top\bs\mu_t - \frac{\Gamma_t}{2}\bs\alpha_t^\top\bs\Sigma_t\bs\alpha_t \right) &= \bs\mu_t - \Gamma_t\bs\Sigma_t\bs\alpha_t  \\
+		\implies \Gamma_t\bs\Sigma_t\hat{\bs\alpha_t} &= \bs\mu_t \\
+		\implies \hat{\bs\alpha_t} &= \frac{1}{\Gamma_t} \bs\Sigma_t^{-1}\bs\mu_t.
+	\end{align*} Then finding the expected values and variances are fairly straightforward computation.
+}
+In this scenario, we can also calculate the Sharpe ratio: $$ S_a = \frac{\mathbb E[V_{t+1}|\mathcal F_t]}{\sqrt{\Var(V_{t+1}|\mathcal F_t)}} = \sqrt{\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t}. $$ Notably, this Sharpe ratio does not depend on our choice of $\Gamma_t$.
+
+\section{Lagrange Multipliers Review}
+If we want to maximize $f(x)$ subject to some constraint $g(x)=c$, we usually rely on a technique called Lagrange Multipliers. This method relies on the observation that at the optimum, the curve $g(x)=c$ is tangent to the relevant level set of $f(x)$, with the intuition being that if this were not the case, we could move in at least one of the directions to increase the objective function while still satisfying the constraint.
+
+\ex{}{
+	For state space $\Omega=\{w_i\}_{i=1}^n$ with probability distribution $\mathbb P$ that has probabilities $P_i$ of being in each state $w_i$, then the entropy is $$ \text{Ent}(\mathbb P) = -\sum_{i=1}^n P_i\log P_i\geq 0. $$ Note that in this discrete space, the discrete uniform distribution maximizes entropy, and among continuous distributions with mean 0 and variance 1, the Gaussian distribution maximizes entropy. We will show that entropy is maximized when $P_i=\frac{1}{n}$ for all $i\in\{1,\cdots,n\}$.
+
+	Our objective is to solve $\max_{\mathbb P}-\sum_{i=1}^n P_i\log P_i$ subject to the constraint that $\sum_{i=1}^n P_i = 1$. Using Lagrange multipliers, this is equivalent to maximizing $$ \mathcal L(\mathbb P,\lambda) = -\sum_{i=1}^n P_i\log P_i + \lambda\left(\sum_{i=1}^n P_i - 1\right), $$ which we do by setting the partial derivatives in terms of both $P_i$ and $\lambda$ to be 0. The derivatives with respect to $P_i$ are $$ \frac{\partial}{\partial P_i}\mathcal L(\mathbb P,\lambda) = -1-\log P_i + \lambda, $$ which tells us that all $\hat P_i$ must be equal. Taking the partial derivative with respect to $\lambda$ and maximizing (or using the constraint of optimization) leads to the desired result.
+}
+
+\section{Markowitz's Modern Portfolio Theory}
+(rip)
+
