@@ -26,12 +26,12 @@ Now suppose we have a vector of asset returns at time $t$ $\mathbf r_t$ with exp
 	\item Divide the returns by standard deviation, giving the Sharpe ratio
 \end{enumerate} The first optimization problem is very hard to solve, and the second and third are actually the same using Lagrange multipliers.
 
-\theorem{}{Let $\hat{\bs\alpha_t}$ to be the solution to the optimization problem in (1) from above. Then, $$ \hat{\bs\alpha_t} = \frac{1}{\Gamma_t}\bs\Sigma_t^{-1}\bs\mu_t, $$ and the expected returns and variance of the portfolio are $$ \mathbb E[V_{t+1}|\mathcal F_t] = \frac{1}{\Gamma_t}\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t $$ and $$ \Var(V_{t+1}|\mathcal F_t) = \frac{1}{\Gamma_t^2}\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t. $$ }
+\theorem{}{Let $\hat{\bs\alpha}_t$ to be the solution to the optimization problem in (1) from above. Then, $$ \hat{\bs\alpha}_t = \frac{1}{\Gamma_t}\bs\Sigma_t^{-1}\bs\mu_t, $$ and the expected returns and variance of the portfolio are $$ \mathbb E[V_{t+1}|\mathcal F_t] = \frac{1}{\Gamma_t}\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t $$ and $$ \Var(V_{t+1}|\mathcal F_t) = \frac{1}{\Gamma_t^2}\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t. $$ }
 \pf{
 	The proof is fairly straightforward optimization: \begin{align*}
 		\frac{\partial}{\partial\bs\alpha_t} \left( \bs\alpha_t^\top\bs\mu_t - \frac{\Gamma_t}{2}\bs\alpha_t^\top\bs\Sigma_t\bs\alpha_t \right) &= \bs\mu_t - \Gamma_t\bs\Sigma_t\bs\alpha_t  \\
-		\implies \Gamma_t\bs\Sigma_t\hat{\bs\alpha_t} &= \bs\mu_t \\
-		\implies \hat{\bs\alpha_t} &= \frac{1}{\Gamma_t} \bs\Sigma_t^{-1}\bs\mu_t.
+		\implies \Gamma_t\bs\Sigma_t\hat{\bs\alpha}_t &= \bs\mu_t \\
+		\implies \hat{\bs\alpha}_t &= \frac{1}{\Gamma_t} \bs\Sigma_t^{-1}\bs\mu_t.
 	\end{align*} Then finding the expected values and variances are fairly straightforward computation.
 }
 In this scenario, we can also calculate the Sharpe ratio: $$ S_a = \frac{\mathbb E[V_{t+1}|\mathcal F_t]}{\sqrt{\Var(V_{t+1}|\mathcal F_t)}} = \sqrt{\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t}. $$ Notably, this Sharpe ratio does not depend on our choice of $\Gamma_t$.
