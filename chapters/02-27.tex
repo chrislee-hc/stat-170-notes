@@ -48,6 +48,3 @@ If we want to maximize $f(x)$ subject to some constraint $g(x)=c$, we usually re
 	Our objective is to solve $\max_{\mathbb P}-\sum_{i=1}^n P_i\log P_i$ subject to the constraint that $\sum_{i=1}^n P_i = 1$. Using Lagrange multipliers, this is equivalent to maximizing $$ \mathcal L(\mathbb P,\lambda) = -\sum_{i=1}^n P_i\log P_i + \lambda\left(\sum_{i=1}^n P_i - 1\right), $$ which we do by setting the partial derivatives in terms of both $P_i$ and $\lambda$ to be 0. The derivatives with respect to $P_i$ are $$ \frac{\partial}{\partial P_i}\mathcal L(\mathbb P,\lambda) = -1-\log P_i + \lambda, $$ which, after equating this to 0, tells us that all $\hat P_i$ must be equal. Taking the partial derivative with respect to $\lambda$ and maximizing (or using the constraint of optimization) leads to the desired result.
 }
 
-\section{Markowitz's Modern Portfolio Theory}
-(rip)
-
