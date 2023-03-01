@@ -1,0 +1,28 @@
+\chapter{3/1/2023}
+Before getting to the core information for the day, first here is a  brief note about a specific important Martingale. \nt{
+	If $\{M_n,\mathcal F_n\}$ is a Martingale and $\{A_k\}_{k=1}^N$ is some random variable with $\mathbb E[A_k|\mathcal F_{k-1}]=A_k$, then $$ Z_n = \sum_{k=1}^{N} A_k(M_k-M_{k-1}) $$ is also a Martingale. We can interpret this in a financial context as the total returns of a stock over the time period where the Martingale differences $M_k-M_{k-1}$ are the stock price changes between days and $A_k$ is the quantity that we invest into the stock on a given day. This is also important probabilistically because it tells us one fundamental way of constructing new Martingales from old ones. When we change the time scale from discrete to continuous, this becomes the basis of stochastic calculus.
+}
+
+\section{Back to Portfolio Basics}
+Recall that our optimization problem from last class was $$ \max_{\bs\alpha_t^\top} \bs\alpha_t^\top\bs\mu_t - \frac{\Gamma_t}{2}\bs\alpha_t^\top\bs\Sigma_t\bs\alpha_t, $$ where $\bs\alpha_t^\top\bs\mu_t$ is the returns, $\bs\alpha_t^\top\bs\Sigma_t\bs\alpha_t$ represents the risk (variance) of the portfolio, and $\Gamma_t$ is a parameter representing our risk tolerance. We can also formulate the optimization problem as $$ \min_{\bs\alpha_t}\bs\alpha_t^\top\bs\Sigma_t\bs\alpha\quad\text{s.t.}\quad\bs\alpha_t^\top\bs\mu_t = \mu^\star. $$ This formulation tells us that we want to minimize our risk given some fixed returns that we need to attain. Both formulations are the same when $\Gamma_t=\left[ \frac{\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t}{\mu^\star} \right]$. We will solve this second formulation using a Lagrangian (with the quantity to minimize multiplied by 1/2 for convenience which does not have any effect on the optimal quantities we will attain): \begin{align*}
+	\mathcal L_t &= \frac{1}{2}\bs\alpha_t^\top\bs\Sigma_t\bs\alpha_t - \lambda \left( \bs\alpha_t^\top\bs\mu_t-\mu^\star \right) \\
+	\frac{\partial\mathcal L_t}{\partial\bs\alpha_t} &= \mathbf 0 \implies \bs\Sigma_t\bs\alpha - \lambda\bs\mu_t = \mathbf 0 \\
+	\frac{\partial\mathcal L_t}{\partial\lambda} &= 0 \implies \bs\alpha_t^\top\bs\mu_t-\mu^\star = 0.
+\end{align*} Then it is relatively straightforward to solve for the optimal quantity $$ \hat{\bs\alpha}_t = \left( \frac{\mu^\star}{c_t} \right) \bs\Sigma_t^{-1}\bs\mu_t $$ where $$ c_t = \bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t. $$ 
+We can also rewrite the optimizer as $$ \hat{\bs\alpha}_t = \frac{\mu^\star\cdot\bs\Sigma_t^{-1}\bs\mu_t}{\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t} = \underbrace{\mu^\star \left( \frac{\mathbf 1_q^\top\bs\Sigma_t^{-1}\bs\mu_t}{\bs\mu_t^\top\bs\Sigma_t^{-1}\bs\mu_t} \right)}_{C_{\mu^\star}}\cdot\underbrace{\frac{\bs\Sigma_t^{-1}\bs\mu_t}{\mathbf 1_q^\top\bs\Sigma_t^{-1}\bs\mu_t}}_{\mathbf w_{\mu,t}}. $$ Notably, $C_{\mu^\star}$ is a constant and the weights $\mathbf w_{\mu,t}$ are independent of $\mu^\star$.
+
+\nt{There are some practical challenges that arise when using these methods in practice to find estimates of all the relevant quantities. For example, if the number of dimensions (stocks) is greater than the number of data points, then the covariance matrix might have a lot of issues. We will explore this phenomenon in PSet 4.}
+
+One other possible optimization is to simply minimize the variance of the portfolio given that the weights sum to 1 as always, $$ \min_{\bs\alpha_t}\bs\alpha_t^\top\bs\Sigma_t\bs\alpha_t\quad\text{s.t.}\quad\bs\alpha_t^\top\mathbf 1_q=1, $$ where $q$ is the number of stocks and where $\mathbf 1_q$ is the column vectors of 1's. The solution is called the global minimum variance portfolio: $$ \hat{\mathbf w}_{1,t} = \frac{\bs\Sigma_t^{-1}\mathbf 1_q}{\mathbf 1_q^\top\bs\Sigma_t^\top\mathbf 1_q}. $$ The next optimizer, which combines the ideas of the previous optimization problems, is so important that it has a name.
+
+\section{Markowitz}
+The Markowitz optimization problem is $$ \min_{\mathbf w_t}\mathbf w_t^\top\bs\Sigma_t\mathbf w_t\quad\text{s.t.}\quad\mathbf w_t^\top\mathbf 1_q=1\quad\text{and}\quad\mathbf w_t^\top \bs\mu_t=\mu^\star. $$ The solution to this optimization problem is $$ \hat{\mathbf w}_t = \lambda_t\hat{\mathbf w}_{1,t} + (1-\lambda_t)\hat{\mathbf w}_{\mu,t} $$ where $$ \hat{\mathbf w}_{1,t} = \frac{\bs\Sigma_t^{-1}\mathbf 1_q}{\mathbf 1_q^\top\mathbf\Sigma_t^{-1}\mathbf 1_q}, $$ $$ \hat{\mathbf w}_{\mu,t} = \frac{\bs\Sigma^{-1}\bs\mu_t}{\mathbf 1^\top\bs\Sigma_t^{-1}\mathbf\mu_t}, $$ and $\lambda_t$ is kinda messy but can be found in the supplementary files on Canvas.
+
+\nt{Note that $\bs\alpha_t$ and $\mathbf w_t$ in the past few sections both denote the same weights on the securities in the portfolio. This is because keeping consistent notation is difficult.}
+
+This optimization problem is solved simply using Lagrange multipliers with two constraints: $$ \mathcal L_t = \frac{1}{2}\mathbf w_t^\top\bs\Sigma_t\mathbf w_t - \lambda_1(\mathbf w_t^\top\mathbf 1_q-1) - \lambda_2(\mathbf w_t^\top\bs\mu_t-\mu^\star). $$ Then taking partial derivatives with respect to $\mathbf w$, $\lambda_1$, and $\lambda_2$, equating them to 0, and solving gives the desired optimal weights.
+\nt{
+	If we wanted to take into account inequalities such as a ban on short selling, we could instead solve this optimization using a (convex) linear program.
+}
+
+
