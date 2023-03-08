@@ -30,8 +30,8 @@ Before proving Doob's OST, we explore another important theorem about stopping t
 \pf{We prove this essentially by direct computation. Letting $\mathcal F_n$ be the information contained in $\{X_n\}_{n=1}^N$: \begin{align*}
 		\mathbb E\left[\sum_{n=1}^{N} X_n\right] &= \mathbb E\left[\sum_{n=1}^\infty X_n\cdot\mathbf 1_{N\geq n}\right] \\
 												 &= \sum_{n=1}^\infty \mathbb E \left[ \mathbb E \left[ X_n\cdot\mathbf 1_{N\geq n} \bigg\rvert\mathcal F_{n-1} \right]  \right] \\
-												 &= \sum_{n=1}^{\infty} \mathbb E \left[ \mathbf 1_{N\geq n}\mathbb E[X_n|\mathcal F_{n-1} \right] .
-\end{align*} Note that the last step is valid because given $\mathcal F_{n-1}$, $\mathbf 1_{N\geq n}$ is simply a constant (since we know if the stopping condition has happened before $n$). Then, this sum becomes $$ \sum_{n=1}^{\infty} \mathbb E \left[ \mathbf 1_{N\geq n}\mathbb E[X_n|\mathcal F_{n-1} \right] = \sum_{n=1}^{\infty} \mathbb E[\mathbf 1_{N\geq n}]\cdot \mathbb E[X_n] = \sum_{n=1}^\infty \mathbb P[N\geq n]\cdot\mathbb E[X_i] = \mathbb E[N]\cdot\mathbb E[X_i] $$ 
+                         &= \sum_{n=1}^{\infty} \mathbb E \left[ \mathbf 1_{N\geq n}\mathbb E[X_n|\mathcal F_{n-1}] \right] .
+  \end{align*} Note that the last step is valid because given $\mathcal F_{n-1}$, $\mathbf 1_{N\geq n}$ is simply a constant (since we know if the stopping condition has happened before $n$). Then, this sum becomes $$ \sum_{n=1}^{\infty} \mathbb E \left[ \mathbf 1_{N\geq n}\mathbb E[X_n|\mathcal F_{n-1}] \right] = \sum_{n=1}^{\infty} \mathbb E[\mathbf 1_{N\geq n}]\cdot \mathbb E[X_i] = \left(\sum_{n=1}^\infty \mathbb P[N\geq n]\right)\mathbb E[X_i] = \mathbb E[N]\mathbb E[X_i] $$ 
 }
 \nt{To see that $\sum_{n=1}^\infty \mathbb P[N\geq n]=\mathbb E[N]$ in the last equality of the proof above:
 \begin{center}

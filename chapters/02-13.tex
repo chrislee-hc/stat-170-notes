@@ -10,7 +10,7 @@ Also recall Markov Chains, which have the Markov property $$ \mathbb P[X_{t+1}|X
 \dfn{Martingale}{
 	$(M_t,\mathcal F_t)$ is a \textbf{martingale} if 
 	\begin{itemize}
-		\item $\mathcal F_t\supseteq\mathcal F_{t-1}$ where $F_t=\operatorname{Inf}(M_1,\cdots,M_t)$ is the information contained in the previous $M_i$ values; this means that we have at least as much information at time $t$ as we do at time $t-1$
+		\item $\mathcal F_t\supseteq\mathcal F_{t-1}$ where $\mathcal F_t=\operatorname{Inf}(M_1,\cdots,M_t)$ is the information contained in the previous $M_i$ values; this means that we have at least as much information at time $t$ as we do at time $t-1$
 		\item $\mathbb E[M_t|\mathcal F_{t-1}]=M_{t-1}$ for all $t$
 		\item $\mathbb E[|M_T|]<\infty$
 	\end{itemize}
