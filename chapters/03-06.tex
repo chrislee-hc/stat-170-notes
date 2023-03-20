@@ -5,7 +5,7 @@ The \textbf{Cauchy distribution}, which is the $t$-distribution with one degree 
 Note that the $t$-distribution with $\nu>1$ degrees of freedom has defined moments and is less heavy tailed than a Cauchy but is heavier tailed than a Gaussian.
 
 \subsection{Extreme Values}
-One other way to think about heavy tailedness through a running maximum. Suppose we have the standard normal variables $Z_1,Z_2,\cdots,Z_n\overset{i.i.d.}{\sim}\mathcal N(0,1)$ and let $\psi_n=\max_{1\leq i\leq n} Z_i$. As $n\to\infty$, $\psi_n\to\infty$. Note that this is true for any distribution that has support that has an infinite supremum. In particular, we have something along the lines of $\psi_n\in\mathcal O(\sqrt{2\log n})$ which comes from the $\exp\left\{-\frac{x^2}{2}\right\}$ in the PDF of the standard normal.
+One other way to think about heavy tailedness is through a running maximum. Suppose we have the standard normal variables $Z_1,Z_2,\cdots,Z_n\overset{i.i.d.}{\sim}\mathcal N(0,1)$ and let $\psi_n=\max_{1\leq i\leq n} Z_i$. As $n\to\infty$, $\psi_n\to\infty$. Note that this is true for any distribution that has support that has an infinite supremum. In particular, we have something along the lines of $\psi_n\in\mathcal O(\sqrt{2\log n})$ which comes from the $\exp\left\{-\frac{x^2}{2}\right\}$ in the PDF of the standard normal.
 
 Now if we instead consider $Y_1,\cdots,Y_n\overset{i.i.d.}{\sim}\operatorname{Cauchy}$ and let $\mu_n=\max_{1\leq i\leq n} Y_i$, then we get something along the lines of $\mu_n\sim\mathcal O(n^\alpha)$ for $\alpha=1/2$ (verify this), which is significantly faster than the rate of growth of $\psi_n$.
 

@@ -1,0 +1,72 @@
+\chapter{3/20/2023: Brownian Motion}
+\section{Definition}
+Recall the random walk which we have talked about multiple times already in this class; these were all defined on discrete time scales. However, real-life events generally happen on continuous time scales -- how can we generalize this idea to a continuous time interval?
+
+First we think about our discrete random walk with times $t=\{0,1,\cdots,n\}$ and which moves up or down with probability $1/2$ at each time step. Then suppose we compress the time dimension by a factor of $n$ and the spatial dimension by a factor of $\sqrt{n}$ so that time will vary in $[0,1]$ and the spatial dimension will have a variance of 1 at the terminal time point. As $n\to\infty$, the limiting object that we get will be Brownian Motion.
+
+\nt{
+	The physical origins of Brownian Motion came from some dude in the 1800s who was studying pollen and thought their motion was kinda cool. Then in 1905 Einstein came along and did his smart stuff to write down the equation for Brownian Motion. According to Natesh, this was ``absolute bonkers''.
+}
+
+With $N\to\infty$, we can treat the time scale as continuous.
+
+\dfn{Brownian Motion}{
+	$\{B_t,t_{\geq 0}\}$ is \textbf{Brownian motion} if: \begin{enumerate}
+		\item $B_0 = 0$
+		\item $B_t$ has \textit{stationary} and \textit{independent} increments
+		\item $B_{t+s} - B_s\sim\mathcal N(0,t)$ for any $t,s>0$
+		\item $B_t$ has continuous sample paths
+	\end{enumerate} 
+	Sometimes Brownian motion is also denoted as $W_t$ after \href{https://en.wikipedia.org/wiki/Norbert_Wiener}{Norbert Wiener}.
+}
+A couple of notes about the definition: \begin{itemize}
+	\item If we have times $0=t_0\leq t_1\leq t_2\leq t_3\leq \cdots\leq 1$, then the increments are $B_{t_1}, B_{t_2}-B_{t_1}, B_{t_3}-B_{t_2},\cdots$.
+	\item Independence of increments means that $B_{t_2}-B_{t_1}$ is independent of $B_{t_3}-B_{t_2}$ (and same for any increments). However, this does not imply that $B_{t_2}$ and $B_{t_1}$ are independent; we will see later exactly what the correlation is.
+	\item The increments being stationary means that $B_{t_1+s}-B_{t_1}$ and $B_{t_2+s}-B_{t_2}$ have the same distribution. Note that this follows from property (3) of Brownian motion.
+	\item The Gaussian distribution of the increments follows from the random walk foundation and from the central limit theorem -- we are adding some large ($n\to\infty$) number of i.i.d. r.v.s, so the limiting distribution will be Gaussian by CLT.
+\end{itemize}
+
+\section{Properties}
+We have that $(B_{t_1},\cdots,B_{t_n})\sim\mathcal N(\mathbf 0,\bs\Sigma)$. We will now calculate the covariance matrix $\bs\Sigma$. We have $B_t=B_t-B_0\sim\mathcal N(0,t)$.
+
+\lemma{}{
+	$$\Cov(B_t,B_s) = \min(s,t) = s\wedge t.$$
+}
+\pf{
+Assume without loss of generality that $s\leq t$. We can prove this lemma via direct calculation: \begin{align*}
+	\Cov(B_t,B-s) &= \mathbb E[B_tB_s] - \underbrace{\mathbb E[B_t]}_{0}\underbrace{\mathbb E[B_s]}_{0} \\
+				  &= \mathbb E[(B_t-B_s+B_s)B_s] \\
+				  &= \mathbb E[(B_t-B_s)B_s] + \mathbb E[B_s^2] \\
+				  &= \mathbb E[B_t-B_s]\mathbb E[B_s] + \Var(B_s) \\
+				  &= s.
+\end{align*} 
+}
+We can then write the covariance matrix $\bs\Sigma$ as $$ \begin{bmatrix}
+	t_1 & t_1 & t_1 & \cdots & t_1 \\
+	t_1 & t_2 & t_2 & \cdots & t_2 \\
+	t_1 & t_2 & t_3 & \cdots & t_3 \\
+	\vdots & \vdots & \vdots & \ddots & \vdots \\
+	t_1 & t_2 & t_3 & \cdots & t_n
+\end{bmatrix}. $$ Notably, this covariance matrix is positive definite.
+
+Next, consider if we ``magnify'' a small portion of the interval $[t_1,t_2]\subseteq[0,1]$. Then this gives us another object of Brownian motion, which tells us that Brownian motion is \textbf{scale invariant} and self-similar.
+
+\theorem{Scale Invariance}{
+	For any $c>0$ let $Z_t = \frac{B_{ct}}{\sqrt{c}}$. Then, $Z_t$ is Brownian motion.
+}
+\pf{
+	PSet fun.
+}
+
+\section{Some Linear Algebra}
+If $Z\sim\mathcal N(0,1)$, then $\sigma Z\sim\mathcal N(0,\sigma^2)$. In the multivariate case, we have the analog that if $\mathbf Z_{d\times 1}\sim\mathcal N(\mathbf 0,\mathbf I_d)$, then if we have some $d\times d$ covariance matrix $\bs\Sigma$, then $\bs\Sigma^{1/2}\mathbf Z_{d\times 1}\sim\mathcal N(\mathbf 0,\bs\Sigma)$. One common way to calculate $\bs\Sigma^{1/2}$ is through \textbf{Cholesky decomposition} which finds $\bs\Sigma^{1/2}=L$ such that $\bs\Sigma = LL^\top$ and such that $L$ is a lower triangular matrix with positive diagonal entries. This lower triangular structure can also be useful for solving equations such as $A\mathbf x=\mathbf b$; by decomposing $A=LL^\top$, we sequentially solve two systems which both come from lower diagonal matrices of coefficients, which are relatively trivial to solve.
+
+\dfn{Random Fourier Series}{
+	If we have some function $f:[0,1]\mapsto\mathbb R$, then we can rewrite the function using the \textbf{Fourier series} $$ f(t) = \sum_{n=0}^{\infty} \left( a_n\cos(nt) + b_n\sin(nt) \right). $$
+}
+
+\section{Simulations}
+Use ChatGPT!
+
+\section{PDEs}
+
