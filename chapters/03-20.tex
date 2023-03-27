@@ -34,7 +34,7 @@ We have that $(B_{t_1},\cdots,B_{t_n})\sim\mathcal N(\mathbf 0,\bs\Sigma)$. We w
 }
 \pf{
 Assume without loss of generality that $s\leq t$. We can prove this lemma via direct calculation: \begin{align*}
-	\Cov(B_t,B-s) &= \mathbb E[B_tB_s] - \underbrace{\mathbb E[B_t]}_{0}\underbrace{\mathbb E[B_s]}_{0} \\
+	\Cov(B_t,B_s) &= \mathbb E[B_tB_s] - \underbrace{\mathbb E[B_t]}_{0}\underbrace{\mathbb E[B_s]}_{0} \\
 				  &= \mathbb E[(B_t-B_s+B_s)B_s] \\
 				  &= \mathbb E[(B_t-B_s)B_s] + \mathbb E[B_s^2] \\
 				  &= \mathbb E[B_t-B_s]\mathbb E[B_s] + \Var(B_s) \\
@@ -67,6 +67,4 @@ If $Z\sim\mathcal N(0,1)$, then $\sigma Z\sim\mathcal N(0,\sigma^2)$. In the mul
 
 \section{Simulations}
 Use ChatGPT!
-
-\section{PDEs}
 

@@ -1,0 +1,31 @@
+\chapter{3/22/2023: Guest Lecture -- Markowitz Portfolio Theory With Dmitry Malioutov}
+Lots of stuff went on this lecture -- check the slides (if they are released).
+
+\iffalse
+Dmitry Malioutov works in portfolio management and applied machine learning at Millennium.
+
+\section{Motivation}
+Markowitz provided the pioneering insight into balancing the risk, reward, and benefits of diversification using a simple convex quadratic programming (QP) formulation.
+
+\section{Classical Portfolio Theory: Review and Shortcomings}
+We have a single-period optimization (e.g. 1 day, 1 month, etc.) from $t$ to $t+1$. We assume investors know (can estimate) expected future returns) and their covariance matrix (VCV matrix). This model ignores market frictions.
+
+For the obejctive, we have reward as measured by expected returns and risk measured by variance (ignoring other risk metrics) -- our utility function is concave and balances risk and returns.
+
+The price of a financial instrument at $t$ is $P_t$ and we define $R_t = R_{t\to t+1} = \frac{P_{t+1}-P_t}{P_t}$. If we have $N$ instruments, then we correspondingly have $\mathbf P_t = [P_{it}]$, $\mathbf R_t = [R_{it}]$. We also have portfolio weights $\mathbf w=[w_i]$ so that the portfolio returns are $R_{pt} = w^\top\mathbf R_t = \sum_{i=1}^N w_iR_{it}$. For portfolio construction we use simple returns, and for forecasting it's more convenient to use log-returns.
+
+The expected future returns are $\bs\mu=\mathbb E[\mathbf R_t]$, and the covariance matrix of returns is $\bs\Sigma = [\Sigma_{ij}] = \Cov(R_{it},R_{ij})$. 
+\dfn{Markowitz Portfolios Formulation, penalized version}{ $$\hat w(\gamma) = \max_{\gamma}\bs\mu^\top\mathbf w - \gamma\mathbf w^\top\bs\Sigma\mathbf w\quad\text{s.t.}\quad\mathbf w^\top\mathbf 1 = 1.$$} There are also other versions of Markowitz:
+\dfn{Markowitz, constrained versions}{Target returns: $$ \hat w(\mu^\star) = \min_{\mathbf w}\mathbf w^\top\bs\Sigma\mathbf w\quad\text{s.t.}\quad\mathbf w^\top\bs\mu\geq\mu^\star,\mathbf 1^\top\mathbf w = 1 $$ Risk bound: $$ \hat w(S) = \max_{\mathbf w}\mathbf w^\top\bs\mu\quad{s.t.}\quad\mathbf w^\top\bs\Sigma\mathbf w\leq S, \mathbf 1^\top\mathbf w = 1 $$  }
+
+\section{Statistical Estimation Challenges}
+
+\section{Factor Models in Finance}
+
+\section{Sparse Markowitz Portfolios}
+
+\section{Market Frictions}
+
+\section{Black-Litterman Portfolios}
+\fi
+

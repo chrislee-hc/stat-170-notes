@@ -1,0 +1,29 @@
+\chapter{03/27/2023: Brownian Motion Continued}
+\section{Calculations}
+Recall that Brownian motion $B_t$ satisfies $B_0=0$, $\{B_t\}$ has stationary and independent increments, $B_{t+s}-B_t\sim\mathcal N(0,t)$, and sample paths are continuous. As a consequence, we have scale invariance ($Zt=\frac{B_{ct}}{\sqrt c}$ is the same object as $B_t$) and $B_t=B_t-B_0\sim\mathcal N(0,t)$. We also previously calculated $\Cov(B_t,B_s)=s\wedge t$, and assuming $s<t$ we can similarly calculate \begin{align*}
+	\Cov(B_t^2,B_s^2) &= \mathbb E[B_t^2B_s^2] - \underbrace{\mathbb E[B_t^2]}_{t}\cdot\underbrace{\mathbb E[B_s^2]}_s \\
+					  &= \mathbb E \left[ (B_t-B_s+B_s)^2 B_s^2 \right] - ts \\
+					  &= \mathbb E \left[ (B_t-B_s)^2\cdot B_s^2 + 2(B_t-B_s)B_s\cdot B_s^2 + B_s^4 \right] - ts
+\end{align*} Since $B_s\overset{d}{=}\sqrt s Z$ where $Z$ is a standard normal, we have $\mathbb E[B_s^4] = \mathbb E[(\sqrt s Z)^4] = 3s^2$ since a standard normal has a fourth moment of value 3. Also, since Brownian motion has independent increments, $B_s=B_s-B_0$ is independent of $B_t-B_s$, and so \begin{align*}
+	\Cov(B_t^2,B_s^2) &= \underbrace{\mathbb E[(B_t-B_s)^2]}_{\Var(B_t-B_s)=t-s}\cdot\underbrace{\mathbb E[B_s^2]}_{\Var(B_s)=s} + 2\underbrace{\mathbb E[B_s^3]}_0\cdot\underbrace{\mathbb E[B_t-B_s]}_0 + \underbrace{\mathbb E[B_s^4]}_{3s^2} - ts \\
+					  &= (t-s)s + 3s^2 - ts \\
+					  &= 2s^2.
+\end{align*}
+
+\section{Martingales and Time Series}
+\subsection{Connections to Other Objects}
+Brownian motion is an example of a Markov process as at each point in time, where we go next is only dependent on where we are now.
+
+Brownian motion is also an example of a Gaussian process.
+\dfn{Gaussian Process}{The time series $\{X_t\}$ is a \textbf{Gaussian process} if for any $(t_1,\cdots,t_n)$, $$ (X_{t_1},\cdots,X_{t_n})\sim\mathcal{MVN}. $$ }
+
+Finally, Brownian motion is a Martingale in continuous time space. In fact, it is possible to show that it is the only (up to some kind of transformation) continuous time Martingale.
+
+\subsection{Some Martingale Review}
+\dfn{Martingale}{The time series $\{M_t,\mathcal F_t\}$ is a Martingale with $$\mathcal F_t=\operatorname{Info} \left( \bigcup_{s\leq t} M_s \right) $$ if for any $s<t$, $$ \mathbb E[M_t|\mathcal F_s] = M_s, $$ which implies $\mathbb E[M_t] = \mathbb E[M_s]$.} Furthermore, if $\tau$ is a stopping time, then the query $\{\tau\leq t\}$ can be answered (i.e. we know whether or not $\tau$ has occurred) based on $\mathcal F_t$. For example, $\tau=\inf\{t\geq 0:M_t\geq 170\}$ is a stopping time. Then our boy Uncle Doob tells us that under certain conditions, $\mathbb E[M_\tau] = \mathbb E[M_0]$
+
+\subsection{Relationship Between Martingales and Brownian Motion}
+Suppose we have the Brownian motion object $W_t$ and let $\tau$ be the stopping time $$ \tau=\inf\{s\geq 0:W_s\in\{A,-B\}\}. $$ If we want to calculate $P[W_t=A]$, we can use Doob in the exact same way as for discrete time Martingales to get $\frac{B}{A+B}$. If we want to calculate $\mathbb E[\tau]$, then exactly as in the midterm, we first see that $B_t^2-t$ is a Martingale (Brownian motion?) and then use Doob, giving the final answer $AB$.
+
+\section{Heat Equation}
+
