@@ -5,7 +5,7 @@ First we begin with an example showing the relationship between the different ty
 
 \section{Futures}
 Before we delve into options pricing, we look into the pricing of futures, which are securities which are generally less complex than options. Now we switch to looking at futures/forward contracts.
-\dfn{Futures/Forward Contracts}{An Agreement to buy some amount of an asset at a future price on a specified future date.}
+\dfn{Futures/Forward Contracts}{An agreement to buy some amount of an asset at a future price on a specified future date.}
 Suppose we have a future for 10000 ounces of gold on Christmas (time $T$) for price $K$. We can think of how to price this contract using an arbitrage argument. Suppose we borrow from the bank (which has 0 probability of defaulting) $Ke^{-r(T-t)}$ at time $t$ under the agreement that we will pay back to the bank $K$ at $T$ where $e^r$ is representing the risk free rate. Then consider the following two scenarios: we buy the asset now at the spot price of $S$, or we buy the future for the asset. Both of these should have the same present value. In the first case, we spend $S$. In the second case, we spend $S-X$ initially to buy the future for some value $X$ and then later buy the future for $X$. However, since we are spending $X$ less now, we can invest that amount into the risk free asset to get $Xe^{r(T-t)}$ at the expiration of the contract, so our value for the contract should include this interest. In order to have no arbitrage, the prices must be set so that $$ S = S - Xe^{r(T-t)} + K \implies X = K^{-r(T-t)}, $$ which gives that the price of the future should be $$ S - X = S - Ke^{-r(T-t)}. $$ 
 
 \section{Back to Options}

@@ -1,6 +1,6 @@
 \chapter{03/27/2023: Brownian Motion Continued}
 \section{Calculations}
-Recall that Brownian motion $B_t$ satisfies $B_0=0$, $\{B_t\}$ has stationary and independent increments, $B_{t+s}-B_t\sim\mathcal N(0,t)$, and sample paths are continuous. As a consequence, we have scale invariance ($Zt=\frac{B_{ct}}{\sqrt c}$ is the same object as $B_t$) and $B_t=B_t-B_0\sim\mathcal N(0,t)$. We also previously calculated $\Cov(B_t,B_s)=s\wedge t$, and assuming $s<t$ we can similarly calculate \begin{align*}
+Recall that Brownian motion $B_t$ satisfies $B_0=0$, $\{B_t\}$ has stationary and independent increments, $B_{t+s}-B_s\sim\mathcal N(0,t)$, and sample paths are continuous. As a consequence, we have scale invariance ($Z_t=\frac{B_{ct}}{\sqrt c}$ is the same object as $B_t$) and $B_t=B_t-B_0\sim\mathcal N(0,t)$. We also previously calculated $\Cov(B_t,B_s)=s\wedge t$, and assuming $s<t$ we can similarly calculate \begin{align*}
 	\Cov(B_t^2,B_s^2) &= \mathbb E[B_t^2B_s^2] - \underbrace{\mathbb E[B_t^2]}_{t}\cdot\underbrace{\mathbb E[B_s^2]}_s \\
 					  &= \mathbb E \left[ (B_t-B_s+B_s)^2 B_s^2 \right] - ts \\
 					  &= \mathbb E \left[ (B_t-B_s)^2\cdot B_s^2 + 2(B_t-B_s)B_s\cdot B_s^2 + B_s^4 \right] - ts
