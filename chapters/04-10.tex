@@ -1,0 +1,50 @@
+\chapter{4/10/2023: Stochastic Differential Equations}
+
+\section{Ordinary Differential Equations Review}
+Recall the differential equations last time $\frac{\mathrm dX_t}{\mathrm dt} = a$ with solution $X_t = X_0+at$ and $\frac{\mathrm dX_t}{\mathrm dt} = aX_t$ with solution $X_t = X_0 e^{at}$. These are two very fundamental differential equations as many other DEs we will see later will build off of these. Also note that that in terms of notation, $X_t$ and $X(t)$ will be interchangeable.
+
+Euler's scheme provides a natural way of solving (approximating?) a differential equation, for example using $$ \frac{\mathrm dX_t}{\mathrm dt} = \frac{X_{t+\delta t}-X_t}{\delta t} = aX_t\implies X_{t+\delta t} = X_t + aX_t\delta t. $$ This will be useful as a numerical solving tool since many of the DEs we will see later will not have exact analytical solutions.
+
+One famous partial differential equation is the heat equation $u(t,x)$ which is described by the differential equations $$ \frac{\partial u}{\partial t} = \partial_t u = \lambda \frac{\partial^2 u}{\partial x^2} $$ and $$ \frac{\partial u}{\partial t} = \Delta u. $$ Note here that $\Delta u$ is the Laplace operator which gives the sum of the second derivatives of $u$ with respect to each of the spatial dimensions.
+
+\ex{쥐가 백마리}{
+	Suppose we are keeping track of mice which distributed in space based on density function $u(t,x)$ and which cross point $x$ at time $t$ at rate $q(t,x)$, and suppose we assume a conservation of mice. Then we can write $q(t,b)-q(t,a)$ in two different ways:\begin{align*}
+		q(t,b) - q(t,a) &= \int_a^b \frac{\partial}{\partial x} q(t,x)\mathrm dx \qquad \text{(FToC)} \\
+		q(t,b) - q(t,a) &= -\frac{\partial}{\partial t}\int_a^b u(t,x)\mathrm dx \\
+						&= \int_a^b -\frac{\partial}{\partial t} u(t,x)\mathrm dx.
+	\end{align*} We flipped the integral and the derivative because it works here, but in general it requires that we check some conditions before we can apply it. Thus, we can get that $-\frac{\partial}{\partial t} u(t,x) = \frac{\partial}{\partial x}q(t,x).$ We then assume a constitutive law, which tells us that mice move from more to less crowded areas: $q(t,x) = -\lambda\frac{\partial u}{\partial x}$. Thus, we have $$ \frac{\partial}{\partial t}u(t,x) = \frac{\partial}{\partial x}q(t,x) = -\frac{\partial^2 u}{\partial x^2}. $$ 
+}
+
+Suppose we define $K(\lambda,t,x) = \frac{1}{2\sqrt{\pi\lambda t}} e^{-\frac{x^2}{4\lambda t}}$. This function is pretty nice -- it has obvious connections to the normal distribution, especially through Brownian motion. In a future PSet we will prove that $K$, which is called the heat kernel, satisfies the heat equation.
+
+\section{Stochastic Differential Equations}
+However, ODEs are not sufficient of describing stock prices. In particular, we don't want to write deterministic functions for stock prices, which have so much noise and other unexplainable behavior built into them. Thus, we want to write something like $\mathrm dX_t = aX_t\mathrm dt + \mathrm dB_t.$ However, $\mathrm dB_t$ is really weird since Brownian motion is not differentiable. This leads to weird properties such as the curve being infinitely long (and wiggly).
+
+To formalize this observation, consider breaking up an interval $[a,b]$ into $n$ small segments so that we can write $$ \sum_{i=1}^n \Delta f(x_i) \overset{n\to\infty}{\longrightarrow} \int_a^b \mathrm df(x) = f(b) - f(a). $$ Suppose we instead want to find the total length (also called total variation) $\int_a^b |\mathrm df|$ or similarly the quadratic variation which we can approximate as $\sum_{i=1}^n \left\lvert\mathrm df(x_i)\right\rvert^2$. We will look at this first in the context of Brownian motion.
+
+\dfn{Quadratic Variation of Brownian Motion}{
+	The \textbf{quadratic variation of Brownian Motion} is $$ \langle B\rangle_T = \lim_{n\to\infty} \sum_{i=1}^n \left\lvert B_{t_i} - B_{t_{i-1}}\right\rvert^2. $$ 
+}
+\theorem{}{$\langle B\rangle_T = T$.}
+\pf{
+	First we can calculate the expectation of the quadratic variation: $$ \mathbb E \left[ \langle B\rangle_T \right]  = \sum_{i=1}^n \mathbb E[(B_{t_i}-B_{t_{i-1}})^2] = \sum_{i=1}^n (t_i - t_{i-1}) = T. $$ Next we want to think about the variance: \begin{align*}
+		\Var \left( \langle B\rangle_T \right) &= \mathbb E \left[ \left[ \langle B\rangle_T - \mathbb E \left[ \langle B\rangle_T \right]  \right] ^2 \right] \\
+											   &=\mathbb E \left[ \left(\sum_{i-1}^n \left[ (B_{t_i}-B_{t_{i-1}})^2 - (t_i - t_{i-1})\right]^2 \right)^2 \right].
+	\end{align*} In the homework we verify that the cross terms vanish, leaving us with \begin{align*}
+	\Var \left( \langle B\rangle_T \right) &= \sum_{i=1}^n \mathbb E \left[\left[ (B_{t_i} - B_{t_{i-1}})^2 - (t-t_{i-1})\right]^2 \right] \\
+										   &= \sum_{i=1}^n \left[ \underbrace{\mathbb E \left[ (B_{t_i}-B_{t_{i-1}})^4 \right]}_{3(t_i-t_{i-1})^2} + (t_i - t_{i-1})^2 - 2\underbrace{\mathbb E \left[ (B_{t_i}-B_{t_{i-1}})^2 \right]}_{t_i-t_{i-1}} (t_i - t_{i-1}) \right] \\
+										   &= 2\sum_{i=1}^n (t_i-t_{i-1})^2 \\
+										   &= 2\sum_{i=1}^n \frac{1}{n^2} \\
+										   &\overset{n\to\infty}{\longrightarrow} 0.
+	\end{align*} 
+}
+
+Recall how normal integrals can be calculated with Riemann sums. Analogously, \begin{align*}
+	\int_0^T f(u)\mathrm dB_u &= \lim_{n\to\infty} \sum_{i=1}^n f(t_i) \left( B_{t_i} - B_{t_{i-1}} \right).
+\end{align*} Furthermore, in standard calculus, $\int_0^T x\mathrm dx = \frac{x^2}{2}\big\rvert_0^T$, but if we perform the same calculation using stochastic calculus, \begin{align*}
+	\int_0^T B_t\mathrm dB_t &= \lim_{n\to\infty}\sum_{i=1}^n B_{t_{i-1}} \left( B_{t_i} - B_{t_{i-1}} \right) \\
+							 &= \lim_{n\to\infty} \left[ \frac{1}{2} \sum_{i=1}^n \left( B_{t_i}^2 - B_{t_{i-1}}^2 \right) - \frac{1}{2}\sum_{i=1}^n \left( B_{t_i} - B_{t_{i-1}} \right) ^2 \right] \\
+							 &= \frac{1}{2} \left( B_T^2 - B_0^2 \right) - \frac{1}{2}\langle B\rangle_T \\
+							 &= \frac{1}{2} \left( B_T^2 - T\right).
+\end{align*} Thus, we generally will have a term like $\frac{1}{2}T$ as an adjustment for most stochastic integral applications.
+
