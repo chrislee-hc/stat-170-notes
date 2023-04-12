@@ -1,0 +1,72 @@
+\chapter{4/12/2023: More Stochastic Calculus}
+
+\section{More on Quadratic Variation}
+We will build off of the analysis of the quadratic variation of Brownian motion from last class.
+\lemma{}{
+	For a continuous $f$, if its total variation on $[0,T]$ is finite, then its quadratic variation is 0.
+}
+\pf{
+	Let $t_i=\frac{i}{n}$ for $i\in\{0,\cdots,n\}$, and denote the total variation and quadratic variation of $f$ by $TV(f)$ by $QV(f)$, respectively. The quadratic variation of $f$ is given by \begin{align*}
+		QV(f) &= \lim_{n\to\infty} \sum_{i=1}^n |f(t_i)-f(t_{i-1})|^2 \\
+			  &\leq \lim_{n\to\infty} \left( \max_i |f(t_i)-f(t_{i-1}) \right) \underbrace{\sum_{i=1}^n |f(t_i)-f(t_{i-1})|}_{TV(f)} \\
+			  &= 0.
+	\end{align*} This last limit is $0$ because the continuity of $f$ implies that $\max_i|f(t_i) - f(t_{i-1})|$ goes to 0 as $n\to\infty$.
+}
+This essentially explains why we didn't have to care about quadratic variation in standard calculus -- differentiability implies that the total variation is finite and thus that the quadratic variation is 0.
+
+\section{Stochastic Integrals}
+\dfn{Stochastic Integral}{
+	The integral of a stochastic function $f$ with respect to Brownian motion object $B_t$ is given by $$ \int_0^T f(B_t)\mathrm dB_t \approx \lim_{n\to\infty} \sum_{i=1}^n f(B_t) \left( B_{t+\delta t} - B_t \right) $$ 
+}
+\ex{Piecewise Constant Function}{
+Suppose we have the piecewise constant function $$ f(t) = \sum_{i=1}^n a_i \mathbb 1[t_i\leq t<t_i+1] $$ where the $a_i$ are random variables completely determined by time $t_i$. Then we can write the stochastic integral \begin{align*}
+	\int_0^T f(t)\mathrm dB_t &= \int_0^T \sum_{i=1}^n a_i\mathbb 1[t_i\leq t< t_{i+1}] \mathrm dB_t \\
+							  &= \sum_{i=1}^n a_i\int_0^T \mathbb I[t_i\leq t<t_{i+1}] \mathrm dB_t \\
+							  &= \sum_{i=1}^n a_i \left( B_{t_{i+1}} - B_{t_i} \right) .
+\end{align*} The last equality comes from the fact that $\int_{t_i}^{t_{i+1}} \mathrm dB_t = B_{t_{i+1}} - B_{t_i}$.}
+
+Next we come up to one of the most important results in stochastic calculus.
+
+\subsection{It\^{o}}
+\theorem{It\^{o}'s Lemma}{
+	$$ f(B_T) - f(B_0) = \int_0^T f'(B_s)\mathrm dB_s + \frac{1}{2}\int_0^T f''(B_s)\mathrm ds. $$ Note that the second term involving the second derivative corresponds to the quadratic variation, which is why there is no corresponding term in the standard fundamental theorem of calculus.
+}
+\nt{For Brownian motion object $B_t$, then $$ M_T=\int_0^T f(B_t)\mathrm dB_t $$ combined with the typical information set is a Martingale. }
+
+\ex{Quadratic Function}{
+	Suppose $f(x) = x^2$. Then, \begin{align*}
+		B_T - B_0^2 &= \int_0^T 2B_t\mathrm dB_t + \frac{1}{2}\int_0^T 2\mathrm ds \\
+		B_T^2 &= 2\int_0^T B_t\mathrm dB_t + T \\
+		\implies \frac{1}{2} \left( B_T^2 - T \right) &= \int_0^T B_t\mathrm dB_t.
+	\end{align*} 
+}
+In this previous example we could have also written with the ``colloquial'' notation $$ \mathrm d(B_T^2) = 2B_t\mathrm dB_t + \mathrm dt. $$ This is essentially It\^{o}'s formula without the integral signs. More generally, $$ \mathrm d(f(B_t)) = f'(B_t)\mathrm dB_t + \frac{1}{2} f''(B_t)\mathrm dt. $$ 
+\ex{Sine Function}{
+	Let $f(x) = \sin x$. Then, \begin{align*}
+		\sin(B_T) - \sin(B_0) &= \int_0^T \cos(B_t)\mathrm dB_t + \frac{1}{2}\int_0^T (-\sin(B_t))\mathrm dt.
+	\end{align*} In this case, the right hand side is not necessarily analytically computable.
+}
+
+Now we will prove It\^{o}'s Lemma.
+\pf{
+	We can write $$ f(B_T) - f(B_0) = \lim_{n\to\infty} \sum_{i=1}^n \left[ f(B_{t_i}) - f(B_{t_i-1}) \right]. $$ Recall that using Taylor's theorem, for any function $f$ we can write $$ f(y) - f(x) = f'(x)(y-x) + \frac{1}{2}f''(x)(y-x)^2 + \cdots. $$ It can be shown that the terms past the second degree do not contribute to our final integral. Then, we have \begin{align*}
+		f(B_T) - f(B_0) &= \lim_{n\to\infty} \sum_{i=1}^n f(B_{t_{i-1}})(B_{t_i} - B_{t_{i-1}}) + \frac{1}{2}\sum_{i=1}^n f''(B_{t_{i-1}}) (B_{t_i} - B_{t_{i-1}}) \\
+						&= \int_0^T f(B_t)\mathrm dB_t + \frac{1}{2}\int_0^T f''(B_t)\mathrm dt.
+	\end{align*} 
+}
+
+Next suppose we have a function $f(t,x)$ which is dependent on both space and time. Then, $$ \mathrm d(f(t,B_t)) = \partial_t f(t,B_t)\mathrm dt + \partial_x f(t,B_t)\mathrm dB_t + \frac{1}{2}\partial_{xx}^2 f(t,B_t)\mathrm dt. $$ 
+
+\subsection{Connections to Finance}
+\subsubsection{Linear Model}
+Suppose we have a stock price $X_t$ described by $$ \mathrm dX_t = a\mathrm dt + \sigma\mathrm dB_t. $$ This is an example of a \textbf{random walk with drift}. We can use It\^{o} on $f(t,x) = at + \sigma x$ to get \begin{align*}
+	\mathrm dX_t &= \mathrm d(f(t,B_t)) \\
+				 &= \partial_t f\mathrm dt + \partial_x f\mathrm dB_t + \frac{1}{2}\partial_{xx}^2 f\mathrm dt \\
+				 &= a\mathrm dt + \sigma\mathrm dB_t.
+\end{align*} This implies that the solution to the stochastic differential equation is $X_t = at + \sigma B_t$.
+
+\subsubsection{Geometric Brownian Motion}
+Suppose our stock price $X_t$ is described by the stochastic differential equation $$ \mathrm dX_t = \mu X_t \mathrm dt + \sigma X_t \mathrm dB_t. $$ We could simulate this using using $$ X_{t+\mathrm dt} - X_t = \mu X_t \mathrm dt + \sigma X_t \sqrt{\mathrm dt} Z $$ where $Z$ is a standard normal. The solution of this differential equation is $$ X_t = X_0 \exp \left\{ \left( \mu-\frac{\sigma^2}{2} \right) t + \sigma B_t \right\}. $$ We will work through the steps of solving this stochastic differential equation next class.
+
+The Black-Scholes model which we will study later assumes this Geometric Brownian Motion model.
+
