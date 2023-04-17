@@ -1,0 +1,33 @@
+\chapter{4/17/2023: More Stochastic Calculus and Option Pricing}
+\section{Geometric Brownian Motion}
+Recall that if $X_t = f(t,B_t)$, then \begin{align*}
+	\mathrm dX_t &= \mathrm df(t,B_t) \\
+				 &= \partial_t f(t,B_t)\mathrm dt + \frac{1}{2}\partial_{xx}^2 f(t,B_t)\mathrm dt + \underbrace{\partial_x f(t,B_t)\mathrm dB_t}_{\text{Martingale}}
+\end{align*} We define Geometric Brownian motion using the differential equation $$ \mathrm dX_t = \mu X_t \mathrm dt + \sigma X_t \mathrm dB_t. $$ We can rearrange this to get \begin{align*}
+	\frac{\mathrm dX_t}{X_t} &= \mu\mathrm dt + \sigma\mathrm dB_t \\
+	\mathrm d\ln(X_t) &= \mu\mathrm dt + \sigma\mathrm dB_t.
+\end{align*} Then, using It\^{o} and letting $X_t = f(t,B_t)$, we have \begin{align*}
+	\mathrm dX_t &= \left( \partial_t f + \frac{1}{2}\partial_{xx}^2 f \right) \mathrm dt + \partial_x f\mathrm dB_t.
+\end{align*} 
+\subsection{Solution}
+We will solve this differential equation by comparing and matching terms. First looking at the $\mathrm dB_t$ terms, \begin{align*}
+	\partial_x f(t,B_t) &= \sigma X_t = \sigma f(t,B_t) 
+	\implies f(t,x) = \exp \left\{ \sigma x + g(t) \right\}.
+\end{align*} Next comparing the $\mathrm dt$ terms, we must have $$ \partial_t f + \partial_{xx}^2 f = \mu f, $$ which, using the explicit form we just found, we can manipulate to get $\partial_t f = f g'(t)$ and $\partial_{xx}^2 f = \sigma^2 f$, which then implies $$ \frac{\sigma^2}{2} + g'(t) = \mu \implies g(t) = \left(\mu-\frac{\sigma}{2}\right)t. $$ This gives the solution $$ X_t = X_0 \exp \left\{ \left( \mu-\frac{\sigma^2}{2} \right) t + \sigma B_t \right\}, $$ or $$ f(t,x) = \exp \left\{ \sigma x + \left( \mu-\frac{\sigma^2}{2} \right) t \right\} $$ assuming that $X_0 = 0$.
+
+\subsection{Expected vs. Realized Properties}
+We can further analyze this Geometric Brownian Motion object is $$ \mathbb E[X_t] = X_0 \mathbb E \left[ \exp\left\{\mu t+\sigma B_t - \frac{\sigma^2}{2}t\right\} \right] = X_0 e^{\mu t} \cdot \underbrace{\mathbb E \left[ \exp \left\{ \sigma B_t - \frac{\sigma^2}{2} t \right\}  \right]}_{1} = X_0 e^{\mu_t}. $$ The expression in the last expected value is called an exponential Martingale, and we will verify that its expected value is 1 in the next homework. 
+
+Suppose $\mu=\frac{1}{2}$ and $\sigma=2$. As $t\to\infty$, we can see that $\mathbb E[X_t]\to\infty$, but looking at the actual individual values gives \begin{align*} X_t &= X_0\exp \left\{ \left( \mu-\frac{\sigma^2}{2} \right) t + \sigma B_t \right\} \\
+		&= X_0 \exp \left\{ t \left[ \left( \mu-\frac{\sigma^2}{2} \right) + \frac{\sigma B_t}{t} \right]  \right\} .
+\end{align*} Note that as $t\to\infty$, $\frac{\sigma B_t}{t}\to 0$ since it is distributed $\mathcal N \left( 0,\frac{\sigma^2}{t} \right)$. Thus, this quantity becomes $$ X_t\approx \exp \left\{ t \left( \mu-\frac{\sigma^2}{2} \right)  \right\} = \exp \left\{ -\frac{3}{2}t \right\} \overset{t\to\infty}{\longrightarrow} 0. $$ Even though the expected value is infinite, the actual values approach 0! This is because in the differential equation definition of $X_t$, the $\sigma$ term dominates the $\mu$ term, and thus the probability that it goes to some small value from which it never really recovers to become a large number increases towards 1 over time.
+
+\section{Options Pricing Introduction}
+We will start with a simple example. Suppose a stock is currently trading at 100 and $T$ will be worth either 120 (scenario $A$) or 90 (scenario $B$), each with probability $\frac{1}{2}$. How much would we be willing to pay for a call option with strike price 110 and expiration date $T=1$ given a current interest rate of 10\%?
+
+Consider a portfolio with one short call and $\Delta$ units of long stock. Then under $A$ our portfolio is worth $\Delta\cdot 120 - 10$ and under B it is worth $\Delta\cdot 90$. If $\Delta=\frac{1}{3}$, then both of these values are equal to $30$, and thus is worth the same as a zero-coupon bond that pays $30$ at time $T$. Thus, for there to be no arbitrage, the amount of money we need to execute both of these strategies must be equal, so if $C$ is the price of the call option, then $$ \frac{100}{3} - C = \frac{100}{3} - \frac{30}{1.1} = \frac{200}{33}\approx 6.06. $$ This is known as a hedging argument: we used a portfolio of a stock and option to synthetically replicate a bond.
+
+For another slightly different (but essentially the same) solution, suppose we want to use a portfolio of stocks and bonds to replicate the payout of the option. If we have $\lambda$ stock and $\mu$ bonds, we solve the system of equations \begin{align*}
+	120\lambda + \mu &= 10 \\
+	90\lambda + \mu &= 0.
+\end{align*} Solving this system gives us $\lambda=\frac{1}{3}$ and $\mu=-30$. This results in the same equation for $C$. This system of equations is known as the replication argument.
