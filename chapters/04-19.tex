@@ -7,7 +7,7 @@ Let $t$ be the current time, $T$ be the time of maturity, and $K$ be the strike 
 	\partial_t f &= -\frac{1}{2}\sigma^2 x^2\partial_{xx}^2 f - rx\partial_x f + rf \\
 	f(T,x) &= \max(X-K,0).
 \end{align*} The closed form solution of this equation is $$ 
-V_t = S\cdot\underbrace{\Phi \left( \frac{\log \left( \frac{S}{K} \right) + \left( r + \frac{\sigma^2}{2} \right) \tau}{\sigma\sqrt{\tau}} \right)}_{a_t} - K e^{-r\tau} \Phi \left( \frac{\log \left( \frac{S}{K} \right) + \left( r - \frac{\sigma^2}{2} \right) \tau}{\sigma\sqrt{\tau}} \right) 
+V_t = S\cdot\underbrace{\Phi \left( \frac{\log \left( \frac{S}{K} \right) + \left( r + \frac{\sigma^2}{2} \right) \tau}{\sigma\sqrt{\tau}} \right)}_{a_t} - K e^{-r\tau} \underbrace{\Phi \left( \frac{\log \left( \frac{S}{K} \right) + \left( r - \frac{\sigma^2}{2} \right) \tau}{\sigma\sqrt{\tau}} \right)}_{-b_t}
 $$ where $\tau=T-t$ and $\Phi$ is the CDF of the standard normal distribution.
 
 \subsection{Interpretation}
