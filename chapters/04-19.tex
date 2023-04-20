@@ -1,0 +1,50 @@
+\chapter{4/19/2023: Options Pricing}
+\section{Black Scholes}
+\subsection{Formula}
+We again analyze the model defined by Geometric Brownian Motion: $$ \mathrm dS_t = \mu S_t \mathrm dt + \sigma S_t \mathrm dB_t, $$ which can equivalently be written as $$ \frac{\mathrm dS_t}{S_t} = \mathrm d\ln S_t = \mu\mathrm dt + \mu\mathrm d B_t. $$ This tells us that $S_t$ follows a log-normal distribution. We will price a European Call.
+
+Let $t$ be the current time, $T$ be the time of maturity, and $K$ be the strike price. Define $ \mathrm d\beta_t = r B_t\mathrm dt $ (this is essentially our bond), and note that the value of the option at maturity is $h(S_T) = \max(S_T-K,0)$. For an arbitrage argument, we want to replicate the payoff of the option using a linear combination of the stock $S_t$ and the bond $\beta_t$. Thus, we want to find $a_t,b_t$ such that $$ V_t = a_tS_t + b_t\beta_t $$ and $V_T = h(S_t)$. For the portfolio to be self-financing, we must have $$ \mathrm dV_t = a_t\mathrm dS_t + b_t\mathrm d\beta_t. $$ Notably, this is not just the derivative of the previous expression because of stochastic effects. Instead, we can let $V_t=f(t,S_t)$ and use It\^{o}'s formula to get \begin{align*}
+	\partial_t f &= -\frac{1}{2}\sigma^2 x^2\partial_{xx}^2 f - rx\partial_x f + rf \\
+	f(T,x) &= \max(X-K,0).
+\end{align*} The closed form solution of this equation is $$ 
+V_t = S\cdot\underbrace{\Phi \left( \frac{\log \left( \frac{S}{K} \right) + \left( r + \frac{\sigma^2}{2} \right) \tau}{\sigma\sqrt{\tau}} \right)}_{a_t} - K e^{-r\tau} \Phi \left( \frac{\log \left( \frac{S}{K} \right) + \left( r - \frac{\sigma^2}{2} \right) \tau}{\sigma\sqrt{\tau}} \right) 
+$$ where $\tau=T-t$ and $\Phi$ is the CDF of the standard normal distribution.
+
+\subsection{Interpretation}
+Interestingly, $\mu$, which tells us the directional movement of the stock, is not a factor in this calculation. Essentially, given parameters $S$, $K$, and $\tau$ which define the option and risk free rate $r$ which is treated as a constant, we can ask what value of $\sigma$ gives the current price of the option -- this is known as \textbf{implied volatility}. Buying a call option means that we believe the market is implying a volatility that is too low.
+
+Since $a_t$ is the output of a CDF function, it is between 0 and 1, meaning that we long the stock but by less than the amount of option we want to replicate. Furthermore, we can see that $b_t$ corresponds to the second term, which has a negative coefficient, indicating that the equivalent portfolio is short the bond.
+
+\section{It\^{o} Isometry}
+Let $M_t = \int_0^t f(B_u)\mathrm dB_u$. Since $M_t$ is a Martingale, we know that $\mathbb E[M_t]=\mathbb E[M_0] = 0$.
+
+\theorem{It\^{o} Isometry}{
+	If $M_t = \int_0^t f(B_u)\mathrm dB_u$, then the variance is given by $$ \Var(M_t) = \mathbb E\left[M_t^2\right] = \int_0^t \mathbb E\left[(f(B_u))^2\right]\mathrm du. $$ 
+}
+
+\ex{}{
+	Define $$ f(u) = \sum_{i=1}^n c_i\mathbf 1[t_i<u<t_{i+1}]. $$ 
+
+	We analyze this function as \begin{align*}
+		\int_0^t f(u)\mathrm dB_u &= \sum_{i=1}^n \int_0^t f(u)\mathrm dB_u \\
+								  &= \sum_{i=1}^n \int_0^t c_i\mathbf 1[t_i<u<t_{i+1}]\mathrm du \\
+								  &= \sum_{i=1}^n c_i\int_0^t \mathbf 1[t_i<u<t_{i+1}]\mathrm dB_u \\
+								  &= \sum_{i=1}^n c_i(B_{t_{i+1}} - B_{t_i}).
+	\end{align*} 
+
+	Then the variance of this object is \begin{align*}
+		\Var \left( \int_0^t f(u)\mathrm dB_u \right) &= \mathbb E \left[ \sum_{i=1}^n c_i(B_{t_{i+1}} - B_{t_i}) \right] ^2 \\
+													  &= \sum_{i=1}^n C_i \mathbb E\left[(B_{t_{i+1}}-B_{t_i})^2\right] + \underbrace{\text{cross terms}}_{0} \\
+													  &= \sum_{i=1}^n c_i^2 (t_{i+1}-t_i) \\
+													  &= \sum_{i=1}^n c_i^2\int_0^t \mathbf 1[t_i<u<t_{i+1}]\mathrm du \\
+													  &= \int_0^t \mathbb E\left[(f(B_u))^2\right]\mathrm du.
+	\end{align*} 
+}
+
+\ex{}{
+	We know that $\int_0^T B_t\mathrm dB_t = \frac{1}{2} \left( B_T^2 - T \right)$. We can verify this using It\^{o} Isometry: $$ \Var \left( \int_0^T B_t\mathrm dB_t \right) = \int_0^T \mathbb E[B_t]^2 \mathrm dt = \int_0^T t\mathrm dt = \frac{T^2}{2} $$ and $$ \Var \left( \frac{1}{2}B_T^2 - T \right) = \frac{1}{4} \mathbb E \left[ B_T^4 \right] - \left( \mathbb E[B_T^2] \right) ^2 = \frac{1}{4} [3T^2-T^2] = \frac{1}{2}T^2. $$ 
+}
+
+\section{Mean-Reverting Process}
+This is called an O-U process, after Ornstein and Uhlenbeck. For $\alpha>0$, define $$ \mathrm dX_t = -\alpha X_t\mathrm dt + \sigma\mathrm dB_t. $$ Notably, this decays towards 0 but then will start being all wiggly there as the noise outweighs everything else, and afterwards it will wiggle away from 0. The difference in definition from Geometric Brownian Motion is that the $\mathrm dB_t$ term is not multiplied by $X_t$.
+
