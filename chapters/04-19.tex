@@ -27,7 +27,7 @@ Let $M_t = \int_0^t f(B_u)\mathrm dB_u$. Since $M_t$ is a Martingale, we know th
 
 	We analyze this function as \begin{align*}
 		\int_0^t f(u)\mathrm dB_u &= \sum_{i=1}^n \int_0^t f(u)\mathrm dB_u \\
-								  &= \sum_{i=1}^n \int_0^t c_i\mathbf 1[t_i<u<t_{i+1}]\mathrm du \\
+								  &= \sum_{i=1}^n \int_0^t c_i\mathbf 1[t_i<u<t_{i+1}]\mathrm dB_u \\
 								  &= \sum_{i=1}^n c_i\int_0^t \mathbf 1[t_i<u<t_{i+1}]\mathrm dB_u \\
 								  &= \sum_{i=1}^n c_i(B_{t_{i+1}} - B_{t_i}).
 	\end{align*} 

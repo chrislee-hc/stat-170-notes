@@ -29,7 +29,7 @@ To formalize this observation, consider breaking up an interval $[a,b]$ into $n$
 \pf{
 	First we can calculate the expectation of the quadratic variation: $$ \mathbb E \left[ \langle B\rangle_T \right]  = \sum_{i=1}^n \mathbb E[(B_{t_i}-B_{t_{i-1}})^2] = \sum_{i=1}^n (t_i - t_{i-1}) = T. $$ Next we want to think about the variance: \begin{align*}
 		\Var \left( \langle B\rangle_T \right) &= \mathbb E \left[ \left[ \langle B\rangle_T - \mathbb E \left[ \langle B\rangle_T \right]  \right] ^2 \right] \\
-											   &=\mathbb E \left[ \left(\sum_{i-1}^n \left[ (B_{t_i}-B_{t_{i-1}})^2 - (t_i - t_{i-1})\right]^2 \right)^2 \right].
+											   &=\mathbb E \left[ \left(\sum_{i-1}^n \left[ (B_{t_i}-B_{t_{i-1}})^2 - (t_i - t_{i-1})\right] \right)^2 \right].
 	\end{align*} In the homework we verify that the cross terms vanish, leaving us with \begin{align*}
 	\Var \left( \langle B\rangle_T \right) &= \sum_{i=1}^n \mathbb E \left[\left[ (B_{t_i} - B_{t_{i-1}})^2 - (t-t_{i-1})\right]^2 \right] \\
 										   &= \sum_{i=1}^n \left[ \underbrace{\mathbb E \left[ (B_{t_i}-B_{t_{i-1}})^4 \right]}_{3(t_i-t_{i-1})^2} + (t_i - t_{i-1})^2 - 2\underbrace{\mathbb E \left[ (B_{t_i}-B_{t_{i-1}})^2 \right]}_{t_i-t_{i-1}} (t_i - t_{i-1}) \right] \\
