@@ -40,7 +40,8 @@ Next we come up to one of the most important results in stochastic calculus.
 		\implies \frac{1}{2} \left( B_T^2 - T \right) &= \int_0^T B_t\mathrm dB_t.
 	\end{align*} 
 }
-In this previous example we could have also written with the ``colloquial'' notation $$ \mathrm d(B_T^2) = 2B_t\mathrm dB_t + \mathrm dt. $$ This is essentially It\^{o}'s formula without the integral signs. More generally, $$ \mathrm d(f(B_t)) = f'(B_t)\mathrm dB_t + \frac{1}{2} f''(B_t)\mathrm dt. $$ 
+In this previous example we could have also written with the ``colloquial'' notation $$ \mathrm d(B_T^2) = 2B_t\mathrm dB_t + \mathrm dt. $$ This is essentially It\^{o}'s formula without the integral signs. We can also write this in a more general form.
+\theorem{Differential Form of It\^{o}'s Lemma}{$$ \mathrm d(f(B_t)) = f'(B_t)\mathrm dB_t + \frac{1}{2} f''(B_t)\mathrm dt. $$}
 \ex{Sine Function}{
 	Let $f(x) = \sin x$. Then, \begin{align*}
 		\sin(B_T) - \sin(B_0) &= \int_0^T \cos(B_t)\mathrm dB_t + \frac{1}{2}\int_0^T (-\sin(B_t))\mathrm dt.
@@ -55,7 +56,7 @@ Now we will prove It\^{o}'s Lemma.
 	\end{align*} 
 }
 
-Next suppose we have a function $f(t,x)$ which is dependent on both space and time. Then, $$ \mathrm d(f(t,B_t)) = \partial_t f(t,B_t)\mathrm dt + \partial_x f(t,B_t)\mathrm dB_t + \frac{1}{2}\partial_{xx}^2 f(t,B_t)\mathrm dt. $$ 
+We can also use a version of It\^{o} on functions that depend on both time and space. \theorem{It\^{o}'s Lemma in Time and Space}{Let $f(t,x)$ be a function which is dependent on both space and time. Then, $$ \mathrm d(f(t,B_t)) = \partial_t f(t,B_t)\mathrm dt + \partial_x f(t,B_t)\mathrm dB_t + \frac{1}{2}\partial_{xx}^2 f(t,B_t)\mathrm dt. $$ }
 
 \subsection{Connections to Finance}
 \subsubsection{Linear Model}
