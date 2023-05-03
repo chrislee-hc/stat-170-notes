@@ -16,7 +16,7 @@ This essentially explains why we didn't have to care about quadratic variation i
 
 \section{Stochastic Integrals}
 \dfn{Stochastic Integral}{
-	The integral of a stochastic function $f$ with respect to Brownian motion object $B_t$ is given by $$ \int_0^T f(B_t)\mathrm dB_t \approx \lim_{n\to\infty} \sum_{i=1}^n f(B_t) \left( B_{t+\delta t} - B_t \right) $$ 
+	The integral of a stochastic function $f$ with respect to Brownian motion object $B_t$ is given by $$ \int_0^T f(B_t)\mathrm dB_t \approx \lim_{n\to\infty} \sum_{i=1}^n f(B_t) \left( B_{t_i} - B_{t_{i-1}} \right) $$ 
 }
 \ex{Piecewise Constant Function}{
 Suppose we have the piecewise constant function $$ f(t) = \sum_{i=1}^n a_i \mathbb 1[t_i\leq t<t_i+1] $$ where the $a_i$ are random variables completely determined by time $t_i$. Then we can write the stochastic integral \begin{align*}
