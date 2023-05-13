@@ -63,7 +63,7 @@ The core properties of a Martingale and its differences are: \begin{enumerate}
 	\item $\mathbb E[\varepsilon_{t+s}|\mathcal F_t] = 0\qquad\forall s\geq 0$
 	\item $\operatorname{Corr}(\varepsilon_{t+i},\varepsilon_{t+j}|\mathcal F_t)=0\qquad i,j\geq 0, i\neq j$
 	\item $\Var(Y_{t+s}-Y_t|\mathcal F_t) = \sum_{j=1}^{s} \Var(\varepsilon_{t+j}|\mathcal F_t). $
-\end{enumerate} Note that conditions 2 and 3 are useful when doing a regression (probably some sort of autoregressive model predicting $Y_{t+1}=\beta Y_t+\varepsilon_{t+1}$. All four of these properties are also true unconditionally: \begin{enumerate}
+\end{enumerate} Note that conditions 2 and 3 are useful when doing a regression (probably some sort of autoregressive model predicting $Y_{t+1}=\beta Y_t+\varepsilon_{t+1}$). All four of these properties are also true unconditionally: \begin{enumerate}
 	\item $\mathbb E[Y_{t+s}] = \mathbb E[Y_t]$
 	\item $\mathbb E[\varepsilon_{t+s}] = 0$
 	\item $\operatorname{Corr}(\varepsilon_{t+i},\varepsilon_{t+j}) = 0$.
@@ -71,7 +71,7 @@ The core properties of a Martingale and its differences are: \begin{enumerate}
 \end{enumerate} 
 Also to see the relationship between some of these properties, we can use property 3 to see that \begin{align*}
 	\Var(Y_{t+s}-Y_t|\mathcal F_t) &= \sum_{j=1}^{s} \sum_{i=1}^{s} \Cov(\varepsilon_{t+j},\varepsilon_{t+i}|\mathcal F_t)   \\
-								   &= \sum_{i=1}^{s} \Var(\varepsilon_{t+j}|\mathcal F_t) + 2 \sum_{i\neq j}^{} \Cov(\varepsilon_{t+i},\varepsilon_{t+j}|\mathcal F_t) \\
+								   &= \sum_{i=1}^{s} \Var(\varepsilon_{t+j}|\mathcal F_t) + 2 \sum_{i < j}^{} \Cov(\varepsilon_{t+i},\varepsilon_{t+j}|\mathcal F_t) \\
 								   &= \sum_{j=1}^{s} \Var(\varepsilon_{t+j}|\mathcal F_t), 
 \end{align*} which gives property 4.
 
